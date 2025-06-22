@@ -9,6 +9,8 @@ const api = axios.create({
 
 const token = localStorage.getItem('jwt');
 
+console.log('JWT token in frontend:', token);  
+
 if (token && token !== 'null') {
   api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 } else {
