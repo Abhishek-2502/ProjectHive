@@ -15,30 +15,32 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+     @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors()  //  Enable CORS
+            .cors()
             .and()
-            .csrf().disable()  // Disable CSRF (if not using sessions)
+            .csrf().disable()
             .authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll()  // Allow public routes
-                .anyRequest().authenticated();  // Secure everything else
+                .requestMatchers("/auth/**").permitAll() // Public
+                .requestMatchers("/api/**").authenticated() // Protected
+                .anyRequest().denyAll()
+            .and()
+            .oauth2ResourceServer().jwt(); // Use JWT for auth
 
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(List.of("http://54.243.1.136:5173"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);  // If you're using cookies or auth
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://54.243.1.136:5173"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);  // Apply to all routes
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
 }
