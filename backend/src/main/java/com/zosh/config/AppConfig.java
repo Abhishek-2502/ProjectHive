@@ -49,9 +49,9 @@ public class AppConfig {
 				cfg.setAllowedOrigins(Arrays.asList(
 						"http://localhost:3000",
 						"http://localhost:5173",
-						"http://54.243.1.136:5173",
-						"http://54.243.1.136:5054",
-						"http://54.243.1.136:3000",
+						"http://3.93.153.113:5173",
+						"http://3.93.153.113:5054",
+						"http://3.93.153.113:3000",
 						"https://project-management-react-plum.vercel.app"));
 				cfg.setAllowedMethods(Collections.singletonList("*"));
 				cfg.setAllowCredentials(true);
